@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Defs>
+
+  <StuffCategoryDef>
+    <defName>LuluChunkWalls_ChunkStuff</defName>
+    <label>rock chunk</label>
+  </StuffCategoryDef>
+
+  <ThingDef ParentName="Wall">
+    <defName>LuluChunkWalls_ChunkWall</defName>
+    <thingClass>LoonyLadle.ChunkWalls.ChunkWall</thingClass>
+    <graphicData Inherit="false">
+      <texPath>Things/Building/Linked/Rock_Atlas</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>CornerFiller</linkType>
+      <linkFlags>
+        <li>Rock</li>
+        <li>MapEdge</li>
+      </linkFlags>
+    </graphicData>
+    <uiIconPath>Lulu/ChunkWalls/ChunkWalls_MenuIcon</uiIconPath>
+    <stuffCategories Inherit="false">
+      <li>LuluChunkWalls_ChunkStuff</li>
+    </stuffCategories>
+    <costStuffCount>1</costStuffCount>
+  </ThingDef>
+
+</Defs>
