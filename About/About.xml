@@ -2,7 +2,9 @@
 <ModMetaData>
   <name>Lulu's Chunk Walls</name>
   <author>LoonyLadle</author>
+  <url>https://github.com/LoonyLadle/LuluChunkWalls</url>
   <supportedVersions>
     <li>1.0</li>
   </supportedVersions>
+  <description>Build natural stone walls out of stone chunks.</description>
 </ModMetaData>

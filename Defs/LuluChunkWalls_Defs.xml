@@ -23,6 +23,19 @@
       <li>LuluChunkWalls_ChunkStuff</li>
     </stuffCategories>
     <costStuffCount>1</costStuffCount>
+    <building>
+      <blueprintGraphicData>
+        <texPath>Lulu/ChunkWalls/ChunkWalls_Blueprint_Atlas</texPath>
+      </blueprintGraphicData>
+    </building>
+    <statBases>
+      <WorkToBuild>2430</WorkToBuild>
+    </statBases>
+    <researchPrerequisites>
+      <li>Stonecutting</li>
+    </researchPrerequisites>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
   </ThingDef>
 
 </Defs>
