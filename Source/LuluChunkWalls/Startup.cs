@@ -1,7 +1,9 @@
 ﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using UnityEngine;
 using Verse;
 
 #pragma warning disable IDE1006 // Naming Styles
@@ -43,6 +45,10 @@ namespace LoonyLadle.ChunkWalls
                         thingDef.uiIconColor = thingDef.graphicData.color;
                         thingDef.uiIconPath = "Lulu/ChunkWalls/ChunkWalls_MenuIcon";
 
+                        //typeof(ThingDef).GetMethod("ResolveIcon", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(thingDef, null);
+                        //typeof(GraphicData).GetField("cachedGraphic", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(thingDef.graphicData, default(Graphic));
+                        thingDef.PostLoad();
+
                         // Build the log string.
                         if (first)
                         {
@@ -56,7 +62,13 @@ namespace LoonyLadle.ChunkWalls
                     }
                 }
             }
-            
+            /*
+            foreach (Type defType in GenDefDatabase.AllDefTypesWithDatabases())
+            {
+                // OH GOD LULU WHAT THE FUCK ARE YOU DOING
+                typeof(DefDatabase<>).MakeGenericType(defType).GetMethod("ResolveAllReferences", BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[]{true});
+            }
+            */
             DefDatabase<DesignationCategoryDef>.ResolveAllReferences();
             Log.Message(stringBuilder.ToString());
         }
