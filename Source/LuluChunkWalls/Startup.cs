@@ -15,6 +15,7 @@ namespace LoonyLadle.ChunkWalls
     {
         static Startup()
         {
+            List<ThingDef> impliedDefs = new List<ThingDef>();
             StringBuilder stringBuilder = new StringBuilder();
             bool first = true;
 
@@ -40,13 +41,18 @@ namespace LoonyLadle.ChunkWalls
                         thingDef.costList.Add(new ThingDefCountClass(chunkDef, 1));
                         thingDef.designationCategory = DesignationCategoryDefOf.Structure;
                         thingDef.designatorDropdown = MyDesignatorDropdownGroupDefOf.LuluChunkWalls_NaturalWall;
+                        thingDef.placingDraggableDimensions = 1;
                         thingDef.researchPrerequisites.Add(MyResearchProjectDefOf.Stonecutting);
                         thingDef.statBases.Add(new StatModifier { stat = StatDefOf.WorkToBuild, value = 2430 });
-                        //thingDef.uiIconColor = thingDef.graphicData.color;
+                        thingDef.terrainAffordanceNeeded = TerrainAffordanceDefOf.Heavy;
                         thingDef.uiIconPath = "Lulu/ChunkWalls/ChunkWalls_MenuIcon";
 
-                        //typeof(ThingDef).GetMethod("ResolveIcon", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(thingDef, null);
-                        //typeof(GraphicData).GetField("cachedGraphic", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(thingDef.graphicData, default(Graphic));
+                        // Manually create implied defs (we're past the point where they'd be generated automatically).
+                        impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewBlueprintDef_Thing", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { thingDef, false, null }));
+                        impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewFrameDef_Thing",     BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { thingDef }));
+
+                        // Finalize graphic data.
+                        thingDef.ResolveReferences();
                         thingDef.PostLoad();
 
                         // Build the log string.
@@ -62,14 +68,15 @@ namespace LoonyLadle.ChunkWalls
                     }
                 }
             }
-            /*
-            foreach (Type defType in GenDefDatabase.AllDefTypesWithDatabases())
+
+            // Add the created implied defs to the def database.
+            foreach (ThingDef impliedDef in impliedDefs)
             {
-                // OH GOD LULU WHAT THE FUCK ARE YOU DOING
-                typeof(DefDatabase<>).MakeGenericType(defType).GetMethod("ResolveAllReferences", BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[]{true});
+                DefDatabase<ThingDef>.Add(impliedDef);
+                //impliedDef.ResolveReferences();
             }
-            */
-            DefDatabase<DesignationCategoryDef>.ResolveAllReferences();
+            
+            DesignationCategoryDefOf.Structure.ResolveReferences();
             Log.Message(stringBuilder.ToString());
         }
     }
