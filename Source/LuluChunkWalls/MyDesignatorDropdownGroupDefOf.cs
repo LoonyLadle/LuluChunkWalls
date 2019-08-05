@@ -6,9 +6,13 @@ using Verse;
 namespace LoonyLadle.ChunkWalls
 {
     [DefOf]
-    public static class MyDefOf
+    public static class MyDesignatorDropdownGroupDefOf
     {
+        static MyDesignatorDropdownGroupDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(DesignatorDropdownGroupDef));
+        }
+
         public static DesignatorDropdownGroupDef LuluChunkWalls_NaturalWall;
-        public static ResearchProjectDef Stonecutting;
     }
 }

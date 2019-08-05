@@ -39,10 +39,10 @@ namespace LoonyLadle.ChunkWalls
                         thingDef.constructionSkillPrerequisite = 6;
                         thingDef.costList.Add(new ThingDefCountClass(chunkDef, 1));
                         thingDef.designationCategory = DesignationCategoryDefOf.Structure;
-                        thingDef.designatorDropdown = MyDefOf.LuluChunkWalls_NaturalWall;
-                        thingDef.researchPrerequisites.Add(MyDefOf.Stonecutting);
+                        thingDef.designatorDropdown = MyDesignatorDropdownGroupDefOf.LuluChunkWalls_NaturalWall;
+                        thingDef.researchPrerequisites.Add(MyResearchProjectDefOf.Stonecutting);
                         thingDef.statBases.Add(new StatModifier { stat = StatDefOf.WorkToBuild, value = 2430 });
-                        thingDef.uiIconColor = thingDef.graphicData.color;
+                        //thingDef.uiIconColor = thingDef.graphicData.color;
                         thingDef.uiIconPath = "Lulu/ChunkWalls/ChunkWalls_MenuIcon";
 
                         //typeof(ThingDef).GetMethod("ResolveIcon", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(thingDef, null);
