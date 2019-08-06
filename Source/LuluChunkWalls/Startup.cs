@@ -1,9 +1,7 @@
 ﻿using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using UnityEngine;
 using Verse;
 
 #pragma warning disable IDE1006 // Naming Styles
@@ -72,8 +70,9 @@ namespace LoonyLadle.ChunkWalls
             // Add the created implied defs to the def database.
             foreach (ThingDef impliedDef in impliedDefs)
             {
-                DefDatabase<ThingDef>.Add(impliedDef);
-                //impliedDef.ResolveReferences();
+                DefGenerator.AddImpliedDef(impliedDef);
+                impliedDef.ResolveReferences();
+                typeof(ShortHashGiver).GetMethod("GiveShortHash", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { impliedDef, typeof(ThingDef) });
             }
             
             DesignationCategoryDefOf.Structure.ResolveReferences();
