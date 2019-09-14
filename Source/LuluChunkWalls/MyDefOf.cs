@@ -9,6 +9,7 @@ namespace LoonyLadle.ChunkWalls
    public static class MyDefOf
    {
       static MyDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(MyDefOf));
+      public static DesignatorDropdownGroupDef LuluChunkWalls_NaturalFloor;
       public static DesignatorDropdownGroupDef LuluChunkWalls_NaturalWall;
       public static ResearchProjectDef Stonecutting;
    }
