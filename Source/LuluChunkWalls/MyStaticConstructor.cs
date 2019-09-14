@@ -36,7 +36,7 @@ namespace LoonyLadle.ChunkWalls
                   // Patch the def.
                   thingDef.building.blueprintGraphicData.texPath = "Lulu/ChunkWalls/ChunkWalls_Blueprint_Atlas";
                   thingDef.constructionSkillPrerequisite = 6;
-                  thingDef.costList.Add(new ThingDefCountClass(chunkDef, 1));
+                  thingDef.costList.Add(new ThingDefCountClass(chunkDef, 2));
                   thingDef.designationCategory = DesignationCategoryDefOf.Structure;
                   thingDef.designatorDropdown = MyDefOf.LuluChunkWalls_NaturalWall;
                   thingDef.placingDraggableDimensions = 1;
