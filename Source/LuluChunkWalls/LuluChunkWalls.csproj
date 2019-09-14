@@ -43,9 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyResearchProjectDefOf.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MyDesignatorDropdownGroupDefOf.cs" />
+    <Compile Include="MyDefOf.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
