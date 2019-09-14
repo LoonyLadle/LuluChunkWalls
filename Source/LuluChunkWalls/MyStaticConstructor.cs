@@ -70,9 +70,9 @@ namespace LoonyLadle.ChunkWalls
          // Add the created implied defs to the def database.
          foreach (ThingDef impliedDef in impliedDefs)
          {
-               DefGenerator.AddImpliedDef(impliedDef);
-               impliedDef.ResolveReferences();
-               typeof(ShortHashGiver).GetMethod("GiveShortHash", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { impliedDef, typeof(ThingDef) });
+            DefGenerator.AddImpliedDef(impliedDef);
+            impliedDef.ResolveReferences();
+            typeof(ShortHashGiver).GetMethod("GiveShortHash", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { impliedDef, typeof(ThingDef) });
          }
             
          DesignationCategoryDefOf.Structure.ResolveReferences();
