@@ -9,9 +9,9 @@ using Verse;
 namespace LoonyLadle.ChunkWalls
 {
     [StaticConstructorOnStartup]
-    public static class Startup
+    public static class MyStaticConstructor
     {
-        static Startup()
+        static MyStaticConstructor()
         {
             List<ThingDef> impliedDefs = new List<ThingDef>();
             StringBuilder stringBuilder = new StringBuilder();
