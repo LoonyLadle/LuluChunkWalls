@@ -63,6 +63,25 @@ namespace LoonyLadle.ChunkWalls
                   {
                         stringBuilder.AppendWithComma(thingDef.defName);
                   }
+
+                  TerrainDef terrainDef = thingDef.building.leaveTerrain;
+
+                  if (terrainDef != null)
+                  {
+                     if (terrainDef.costList == null)              terrainDef.costList              = new List<ThingDefCountClass>();
+                     if (terrainDef.researchPrerequisites == null) terrainDef.researchPrerequisites = new List<ResearchProjectDef>();
+                     if (terrainDef.statBases == null)             terrainDef.statBases             = new List<StatModifier>();
+                     terrainDef.constructionSkillPrerequisite = 6;
+                     terrainDef.costList.Add(new ThingDefCountClass(chunkDef, 1));
+                     terrainDef.designationCategory = MyDefOf.Floors;
+                     terrainDef.designatorDropdown = MyDefOf.LuluChunkWalls_NaturalFloor;
+                     terrainDef.researchPrerequisites.Add(MyDefOf.Stonecutting);
+                     terrainDef.statBases.Add(new StatModifier { stat = StatDefOf.WorkToBuild, value = 1500 });
+                     terrainDef.terrainAffordanceNeeded = TerrainAffordanceDefOf.Heavy;
+                     impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewBlueprintDef_Terrain", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { terrainDef }));
+                     impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewFrameDef_Terrain",     BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { terrainDef }));
+                     stringBuilder.AppendWithComma(terrainDef.defName);
+                  }
                }
             }
          }
