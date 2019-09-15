@@ -93,8 +93,9 @@ namespace LoonyLadle.ChunkWalls
             impliedDef.ResolveReferences();
             typeof(ShortHashGiver).GetMethod("GiveShortHash", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { impliedDef, typeof(ThingDef) });
          }
-            
+
          DesignationCategoryDefOf.Structure.ResolveReferences();
+         MyDefOf.Floors.ResolveReferences();
          Log.Message(stringBuilder.ToString());
       }
    }
