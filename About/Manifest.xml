@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <Manifest>
-    <identifier>LuluChunkWalls</identifier>
-    <version>2.1.0</version>
-    <dependencies />
-    <incompatibleWith />
-    <loadBefore />
-    <loadAfter />
-    <suggests />
-    <showCrossPromotions>false</showCrossPromotions>
-    <manifestUri>https://raw.githubusercontent.com/LoonyLadle/LuluChunkWalls/master/About/Manifest.xml</manifestUri>
-    <downloadUri>https://github.com/LoonyLadle/LuluChunkWalls/releases/latest</downloadUri>
+	<identifier>LuluChunkWalls</identifier>
+	<version>2.2.0</version>
+	<dependencies />
+	<incompatibleWith />
+	<loadBefore />
+	<loadAfter />
+	<suggests />
+	<showCrossPromotions>false</showCrossPromotions>
+	<manifestUri>https://raw.githubusercontent.com/LoonyLadle/LuluChunkWalls/master/About/Manifest.xml</manifestUri>
+	<downloadUri>https://github.com/LoonyLadle/LuluChunkWalls/releases/latest</downloadUri>
 </Manifest>
