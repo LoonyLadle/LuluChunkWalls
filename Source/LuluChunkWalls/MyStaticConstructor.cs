@@ -14,10 +14,8 @@ namespace LoonyLadle.ChunkWalls
 		static MyStaticConstructor()
 		{
 			List<ThingDef> impliedDefs = new List<ThingDef>();
-			StringBuilder stringBuilder = new StringBuilder();
+			StringBuilder stringBuilder = new StringBuilder("[LuluChunkWalls] Dynamic patched the following defs: ");
 			bool first = true;
-
-			stringBuilder.Append("[LuluChunkWalls] Dynamic patched the following defs: ");
 
 			foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
 			{
@@ -29,9 +27,9 @@ namespace LoonyLadle.ChunkWalls
 					{
 						// Ensure lists are initialized.
 						if (thingDef.building.blueprintGraphicData == null) thingDef.building.blueprintGraphicData = new GraphicData();
-						if (thingDef.costList == null)							 thingDef.costList							 = new List<ThingDefCountClass>();
-						if (thingDef.researchPrerequisites == null)			thingDef.researchPrerequisites			= new List<ResearchProjectDef>();
-						if (thingDef.statBases == null)							thingDef.statBases							= new List<StatModifier>();
+						if (thingDef.costList == null)                      thingDef.costList                      = new List<ThingDefCountClass>();
+						if (thingDef.researchPrerequisites == null)         thingDef.researchPrerequisites         = new List<ResearchProjectDef>();
+						if (thingDef.statBases == null)                     thingDef.statBases                     = new List<StatModifier>();
 
 						// Patch the def.
 						thingDef.building.blueprintGraphicData.texPath = "Lulu/ChunkWalls/ChunkWalls_Blueprint_Atlas";
@@ -47,7 +45,7 @@ namespace LoonyLadle.ChunkWalls
 
 						// Manually create implied defs (we're past the point where they'd be generated automatically).
 						impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewBlueprintDef_Thing", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { thingDef, false, null }));
-						impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewFrameDef_Thing",	  BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { thingDef }));
+						impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewFrameDef_Thing",     BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { thingDef }));
 
 						// Finalize graphic data.
 						thingDef.ResolveReferences();
@@ -94,8 +92,11 @@ namespace LoonyLadle.ChunkWalls
 				typeof(ShortHashGiver).GetMethod("GiveShortHash", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { impliedDef, typeof(ThingDef) });
 			}
 
+			// Regenerate the references in designation categories to make sure everything shows up to the player.
 			DesignationCategoryDefOf.Structure.ResolveReferences();
 			MyDefOf.Floors.ResolveReferences();
+
+			// Report on what we've done.
 			Log.Message(stringBuilder.ToString());
 		}
 	}
