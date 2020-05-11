@@ -1,5 +1,6 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Verse;
@@ -16,6 +17,8 @@ namespace LoonyLadle.ChunkWalls
 			List<ThingDef> impliedDefs = new List<ThingDef>();
 			StringBuilder stringBuilder = new StringBuilder("[LuluChunkWalls] Dynamic patched the following defs: ");
 			bool first = true;
+			float wallWork = ThingDefOf.Wall.statBases.GetStatValueFromList(StatDefOf.WorkToBuild, 135);
+			float floorWork = TerrainDefOf.Concrete.statBases.GetStatValueFromList(StatDefOf.WorkToBuild, 100);
 
 			foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
 			{
@@ -31,6 +34,10 @@ namespace LoonyLadle.ChunkWalls
 						if (thingDef.researchPrerequisites == null)         thingDef.researchPrerequisites         = new List<ResearchProjectDef>();
 						if (thingDef.statBases == null)                     thingDef.statBases                     = new List<StatModifier>();
 
+						StuffProperties productProps = (chunkDef.butcherProducts?.Where(p => p.thingDef.IsStuff).FirstOrDefault()?.thingDef ?? ThingDefOf.BlocksGranite).stuffProps;
+						float stuffWork = productProps.statOffsets.GetStatOffsetFromList(StatDefOf.WorkToBuild);
+						float stuffFactor = productProps.statFactors.GetStatFactorFromList(StatDefOf.WorkToBuild);
+
 						// Patch the def.
 						thingDef.building.blueprintGraphicData.texPath = "Lulu/ChunkWalls/ChunkWalls_Blueprint_Atlas";
 						thingDef.constructionSkillPrerequisite = 6;
@@ -39,7 +46,7 @@ namespace LoonyLadle.ChunkWalls
 						thingDef.designatorDropdown = MyDefOf.LuluChunkWalls_NaturalWall;
 						thingDef.placingDraggableDimensions = 1;
 						thingDef.researchPrerequisites.Add(MyDefOf.Stonecutting);
-						thingDef.statBases.Add(new StatModifier { stat = StatDefOf.WorkToBuild, value = 2430 });
+						thingDef.statBases.Add(new StatModifier { stat = StatDefOf.WorkToBuild, value = (wallWork+stuffWork)*(stuffFactor+3) }); // was 2430
 						thingDef.terrainAffordanceNeeded = TerrainAffordanceDefOf.Heavy;
 						thingDef.uiIconPath = "Lulu/ChunkWalls/ChunkWalls_MenuIcon";
 
@@ -66,15 +73,15 @@ namespace LoonyLadle.ChunkWalls
 
 						if (terrainDef != null)
 						{
-							if (terrainDef.costList == null)				  terrainDef.costList				  = new List<ThingDefCountClass>();
+							if (terrainDef.costList == null)              terrainDef.costList              = new List<ThingDefCountClass>();
 							if (terrainDef.researchPrerequisites == null) terrainDef.researchPrerequisites = new List<ResearchProjectDef>();
-							if (terrainDef.statBases == null)				 terrainDef.statBases				 = new List<StatModifier>();
+							if (terrainDef.statBases == null)             terrainDef.statBases             = new List<StatModifier>();
 							terrainDef.constructionSkillPrerequisite = 6;
 							terrainDef.costList.Add(new ThingDefCountClass(chunkDef, 1));
 							terrainDef.designationCategory = MyDefOf.Floors;
 							terrainDef.designatorDropdown = MyDefOf.LuluChunkWalls_NaturalFloor;
 							terrainDef.researchPrerequisites.Add(MyDefOf.Stonecutting);
-							terrainDef.statBases.Add(new StatModifier { stat = StatDefOf.WorkToBuild, value = 1500 });
+							terrainDef.statBases.Add(new StatModifier { stat = StatDefOf.WorkToBuild, value = (floorWork+stuffWork)*(stuffFactor+3) }); // was 1500
 							terrainDef.terrainAffordanceNeeded = TerrainAffordanceDefOf.Heavy;
 							impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewBlueprintDef_Terrain", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { terrainDef }));
 							impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewFrameDef_Terrain",	  BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { terrainDef }));
