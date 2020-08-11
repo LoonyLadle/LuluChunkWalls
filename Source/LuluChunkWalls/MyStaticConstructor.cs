@@ -20,6 +20,12 @@ namespace LoonyLadle.ChunkWalls
 			float wallWork = ThingDefOf.Wall.statBases.GetStatValueFromList(StatDefOf.WorkToBuild, 135);
 			float floorWork = TerrainDefOf.Concrete.statBases.GetStatValueFromList(StatDefOf.WorkToBuild, 100);
 
+			MethodInfo newThingBlueprintDef   = typeof(ThingDefGenerator_Buildings).GetMethod("NewBlueprintDef_Thing"  , BindingFlags.NonPublic | BindingFlags.Static);
+			MethodInfo newThingFrameDef       = typeof(ThingDefGenerator_Buildings).GetMethod("NewFrameDef_Thing"      , BindingFlags.NonPublic | BindingFlags.Static);
+			MethodInfo newTerrainBlueprintDef = typeof(ThingDefGenerator_Buildings).GetMethod("NewBlueprintDef_Terrain", BindingFlags.NonPublic | BindingFlags.Static);
+			MethodInfo newTerrainFrameDef     = typeof(ThingDefGenerator_Buildings).GetMethod("NewFrameDef_Terrain"    , BindingFlags.NonPublic | BindingFlags.Static);
+			MethodInfo giveShortHash          = typeof(ShortHashGiver).GetMethod("GiveShortHash", BindingFlags.NonPublic | BindingFlags.Static);
+
 			foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
 			{
 				if (thingDef.building?.isNaturalRock ?? false)
@@ -51,8 +57,8 @@ namespace LoonyLadle.ChunkWalls
 						thingDef.uiIconPath = "Lulu/ChunkWalls/ChunkWalls_MenuIcon";
 
 						// Manually create implied defs (we're past the point where they'd be generated automatically).
-						impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewBlueprintDef_Thing", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { thingDef, false, null }));
-						impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewFrameDef_Thing",     BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { thingDef }));
+						impliedDefs.Add((ThingDef)newThingBlueprintDef.Invoke(null, new object[] { thingDef, false, null }));
+						impliedDefs.Add((ThingDef)newThingFrameDef.Invoke(null, new object[] { thingDef }));
 
 						// Finalize graphic data.
 						thingDef.ResolveReferences();
@@ -83,8 +89,8 @@ namespace LoonyLadle.ChunkWalls
 							terrainDef.researchPrerequisites.Add(MyDefOf.Stonecutting);
 							terrainDef.statBases.Add(new StatModifier { stat = StatDefOf.WorkToBuild, value = (floorWork+stuffWork)*(stuffFactor+3) }); // was 1500
 							terrainDef.terrainAffordanceNeeded = TerrainAffordanceDefOf.Heavy;
-							impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewBlueprintDef_Terrain", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { terrainDef }));
-							impliedDefs.Add((ThingDef)typeof(ThingDefGenerator_Buildings).GetMethod("NewFrameDef_Terrain",	  BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { terrainDef }));
+							impliedDefs.Add((ThingDef)newTerrainBlueprintDef.Invoke(null, new object[] { terrainDef }));
+							impliedDefs.Add((ThingDef)newTerrainFrameDef.Invoke(null, new object[] { terrainDef }));
 							stringBuilder.AppendWithComma(terrainDef.defName);
 						}
 					}
@@ -96,7 +102,7 @@ namespace LoonyLadle.ChunkWalls
 			{
 				DefGenerator.AddImpliedDef(impliedDef);
 				impliedDef.ResolveReferences();
-				typeof(ShortHashGiver).GetMethod("GiveShortHash", BindingFlags.NonPublic | BindingFlags.Static).Invoke(null, new object[] { impliedDef, typeof(ThingDef) });
+				giveShortHash.Invoke(null, new object[] { impliedDef, typeof(ThingDef) });
 			}
 
 			// Regenerate the references in designation categories to make sure everything shows up to the player.
